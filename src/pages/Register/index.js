@@ -1,27 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {View, Text ,Image, ScrollView} from 'react-native';
 import { Input, Button } from '../../components';
 import { colors } from '../../utils';
 import { iconBack, IllustrationRegister } from '../../assets';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useSelector, useDispatch } from 'react-redux';
+import { setForm } from '../../redux';
 
 const Register = () => {
-    const [form, setForm] = useState({
-        fullName: '',
-        email: '',
-        password: ''
-    })
+    const {form} = useSelector((state) => state.RegisterReducer);
+    const dispatch = useDispatch();
 
     const sendData = () => {
         console.log('data yang dikirim:', form);
         //send axios
     }
 
-    const onInputChange = (value, input) => {
-        setForm({
-            ...form,
-            [input]: value,
-        })
+    const onInputChange = (value, inputType) => {
+        dispatch(setForm(inputType, value))
     }
     return(
         <View style={styles.wrapper.page}>
@@ -35,7 +31,7 @@ const Register = () => {
                     style={styles.illustration}
                 />
                 <Text style={styles.text.desc}>
-                    Mohon Mengisi beberapa data untuk proses daftar anda
+                    Mohon Mengisi beberapa data untuk proses daftar anda 
                 </Text>
                 <View style={styles.space(64)} />
                 <Input 
